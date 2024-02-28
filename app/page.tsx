@@ -1,7 +1,12 @@
 'use client';
 
-import Head from 'next/head';
+import { useRouter } from 'next/navigation';
 import * as React from 'react';
+
+// !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
+// Before you begin editing, follow all comments with `STARTERCONF`,
+// to customize the default configuration.
+import { default as useStore, observer } from '@/store';
 
 /**
  * SVGR Support
@@ -12,19 +17,16 @@ import * as React from 'react';
  */
 import Logo from '@/public/svg/Logo.svg';
 
-// !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
-// Before you begin editing, follow all comments with `STARTERCONF`,
-// to customize the default configuration.
+export default observer(function HomePage() {
+  const router = useRouter();
+  const { User } = useStore();
 
-export default function HomePage() {
   return (
     <main>
-      <Head>
-        <title>Hi</title>
-      </Head>
       <section className='bg-white'>
         <div className='flex flex-col min-h-screen text-center py-12 layout relative items-center justify-center'>
           <Logo className='w-16' />
+          <h1>Hi, {User.name}</h1>
           <h1 className='mt-4'>
             Next.js + Tailwind CSS + daisyUI + TypeScript Starter
           </h1>
@@ -42,7 +44,12 @@ export default function HomePage() {
             </a>
           </p>
 
-          <button className='mt-6 btn '>See all components</button>
+          <button className='mt-6 btn ' onClick={() => router.push('/user')}>
+            Test Page
+          </button>
+          <button className='mt-6 btn ' onClick={() => User.changeName()}>
+            Change name
+          </button>
 
           <footer className='bottom-2 text-gray-700 absolute'>
             © {new Date().getFullYear()} By{' '}
@@ -58,4 +65,4 @@ export default function HomePage() {
       </section>
     </main>
   );
-}
+});
